@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Myntra Clone | Online Shopping for Fashion</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        :root {
+            --primary-color: #ff3f6c;
+            --secondary-color: #282c3f;
+            --light-gray: #f5f5f6;
+            --medium-gray: #696e79;
+            --dark-gray: #3e4152;
+            --white: #ffffff;
+            --shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            color: var(--secondary-color);
+            background-color: var(--white);
+            line-height: 1.4;
+        }
+
+        /* Header Styles */
+        .header {
+            background-color: var(--white);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .top-header {
+            background-color: var(--secondary-color);
+            color: var(--white);
+            padding: 8px 0;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        .main-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 40px;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo i {
+            margin-right: 5px;
+        }
+
+        .search-container {
+            flex-grow: 1;
+            max-width: 500px;
+            margin: 0 30px;
+            position: relative;
+        }
+
+        .search-container input {
+            width: 100%;
+            padding: 12px 20px;
+            border-radius: 4px;
+            border: 1px solid #d4d5d9;
+            background-color: var(--light-gray);
+            font-size: 14px;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .search-container input:focus {
+            background-color: var(--white);
+            border-color: var(--medium-gray);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--medium-gray);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: var(--secondary-color);
+            font-size: 12px;
+            font-weight: 700;
+            transition: color 0.3s;
+        }
+
+        .nav-item i {
+            font-size: 18px;
+            margin-bottom: 4px;
+        }
+
+        .nav-item:hover {
+            color: var(--primary-color);
+        }
+
+        /* Category Navigation */
+        .category-nav {
+            border-top: 1px solid #f5f5f6;
+            padding: 12px 40px;
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        .category-nav a {
+            text-decoration: none;
+            color: var(--secondary-color);
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+
+        .category-nav a:hover {
+            color: var(--primary-color);
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .hero-section {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1445205170230-053b83016050?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+            color: var(--white);
+            padding: 80px 20px;
+            text-align: center;
+            border-radius: 8px;
+            margin-bottom: 40px;
+        }
+
+        .hero-section h1 {
+            font-size: 42px;
+            margin-bottom: 20px;
+        }
+
+        .hero-section p {
+            font-size: 18px;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+        }
+
+        .shop-now-btn {
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            padding: 14px 32px;
+            font-size: 16px;
+            font-weight: 700;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .shop-now-btn:hover {
+            background-color: #e63956;
+            transform: translateY(-3px);
+        }
+
+        .section-title {
+            font-size: 28px;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--light-gray);
+        }
+
+        /* Product Grid */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .product-card {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+            background-color: var(--white);
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-img {
+            width: 100%;
+            height: 320px;
+            object-fit: cover;
+        }
+
+        .product-details {
+            padding: 15px;
+        }
+
+        .product-brand {
+            font-weight: 700;
+            font-size: 16px;
+            margin-bottom: 5px;
+            color: var(--dark-gray);
+        }
+
+        .product-name {
+            font-size: 14px;
+            color: var(--medium-gray);
+            margin-bottom: 10px;
+            height: 40px;
+            overflow: hidden;
+        }
+
+        .product-price {
+            font-weight: 700;
+            font-size: 16px;
+            color: var(--secondary-color);
+        }
+
+        .original-price {
+            text-decoration: line-through;
+            color: var(--medium-gray);
+            font-weight: 400;
+            margin-right: 8px;
+        }
+
+        .discount {
+            color: var(--primary-color);
+            font-weight: 700;
+            margin-left: 8px;
+        }
+
+        .product-rating {
+            background-color: #26a541;
+            color: white;
+            font-size: 12px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            display: inline-flex;
+            align-items: center;
+            margin-top: 8px;
+        }
+
+        .product-rating i {
+            font-size: 10px;
+            margin-right: 3px;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--secondary-color);
+            color: var(--white);
+            padding: 40px 0 20px;
+            margin-top: 40px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .footer-columns {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .footer-column h3 {
+            font-size: 14px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            color: var(--light-gray);
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-column ul li a {
+            color: #b6b8c3;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        .footer-column ul li a:hover {
+            color: var(--white);
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-icons a {
+            color: var(--white);
+            background-color: #3e4152;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s;
+        }
+
+        .social-icons a:hover {
+            background-color: var(--primary-color);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #3e4152;
+            font-size: 12px;
+            color: #b6b8c3;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .main-header {
+                padding: 12px 20px;
+            }
+            
+            .category-nav {
+                padding: 12px 20px;
+                gap: 25px;
+            }
+            
+            .hero-section {
+                padding: 60px 20px;
+            }
+            
+            .hero-section h1 {
+                font-size: 36px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-header {
+                flex-wrap: wrap;
+            }
+            
+            .search-container {
+                order: 3;
+                flex-basis: 100%;
+                margin: 15px 0 0 0;
+                max-width: 100%;
+            }
+            
+            .nav-links {
+                gap: 15px;
+            }
+            
+            .hero-section h1 {
+                font-size: 30px;
+            }
+            
+            .hero-section p {
+                font-size: 16px;
+            }
+            
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .nav-item span {
+                display: none;
+            }
+            
+            .category-nav {
+                gap: 15px;
+                font-size: 12px;
+            }
+            
+            .product-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+            
+            .product-img {
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <div class="top-header">
+            <p>Free shipping on orders above ₹799 | Extra 10% off on first purchase</p>
+        </div>
+        
+        <div class="main-header">
+            <a href="#" class="logo">
+                <i class="fas fa-crown"></i> MYNTRA
+            </a>
+            
+            <div class="search-container">
+                <input type="text" placeholder="Search for products, brands and more">
+                <i class="fas fa-search search-icon"></i>
+            </div>
+            
+            <div class="nav-links">
+                <a href="#" class="nav-item">
+                    <i class="far fa-user"></i>
+                    <span>Profile</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="far fa-heart"></i>
+                    <span>Wishlist</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span>Bag</span>
+                </a>
+            </div>
+        </div>
+        
+        <nav class="category-nav">
+            <a href="#">Men</a>
+            <a href="#">Women</a>
+            <a href="#">Kids</a>
+            <a href="#">Home & Living</a>
+            <a href="#">Beauty</a>
+            <a href="#">Studio</a>
+            <a href="#">Sports</a>
+            <a href="#">Brands</a>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <h1>Summer Sale is Live!</h1>
+            <p>Get flat 50% off on top brands. Limited time offer. Shop the latest trends in fashion, accessories, and more.</p>
+            <button class="shop-now-btn">SHOP NOW</button>
+        </section>
+
+        <!-- Featured Products -->
+        <section class="featured-products">
+            <h2 class="section-title">Trending Now</h2>
+            <div class="product-grid">
+                <!-- Product 1 -->
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Men's T-shirt" class="product-img">
+                    <div class="product-details">
+                        <div class="product-brand">Roadster</div>
+                        <div class="product-name">Men Pure Cotton T-shirt</div>
+                        <div class="product-price">
+                            <span class="original-price">₹1,499</span> ₹799
+                            <span class="discount">(46% OFF)</span>
+                        </div>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i> 4.3
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 2 -->
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Women's Dress" class="product-img">
+                    <div class="product-details">
+                        <div class="product-brand">H&M</div>
+                        <div class="product-name">Women Floral Print Midi Dress</div>
+                        <div class="product-price">
+                            <span class="original-price">₹2,999</span> ₹1,799
+                            <span class="discount">(40% OFF)</span>
+                        </div>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i> 4.5
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 3 -->
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1544441893-675973e31985?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Sports Shoes" class="product-img">
+                    <div class="product-details">
+                        <div class="product-brand">Nike</div>
+                        <div class="product-name">Men's Running Shoes</div>
+                        <div class="product-price">
+                            <span class="original-price">₹4,999</span> ₹3,499
+                            <span class="discount">(30% OFF)</span>
+                        </div>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i> 4.7
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 4 -->
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Denim Jacket" class="product-img">
+                    <div class="product-details">
+                        <div class="product-brand">Levi's</div>
+                        <div class="product-name">Men's Denim Jacket</div>
+                        <div class="product-price">
+                            <span class="original-price">₹3,999</span> ₹2,799
+                            <span class="discount">(30% OFF)</span>
+                        </div>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i> 4.4
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 5 -->
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Handbag" class="product-img">
+                    <div class="product-details">
+                        <div class="product-brand">Hidesign</div>
+                        <div class="product-name">Women Leather Handbag</div>
+                        <div class="product-price">
+                            <span class="original-price">₹6,999</span> ₹4,199
+                            <span class="discount">(40% OFF)</span>
+                        </div>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i> 4.6
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 6 -->
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Kids Wear" class="product-img">
+                    <div class="product-details">
+                        <div class="product-brand">Coco Moon</div>
+                        <div class="product-name">Kids Printed T-shirt & Shorts Set</div>
+                        <div class="product-price">
+                            <span class="original-price">₹1,799</span> ₹899
+                            <span class="discount">(50% OFF)</span>
+                        </div>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i> 4.2
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- New Arrivals -->
+        <section class="new-arrivals">
+            <h2 class="section-title">New Arrivals</h2>
+            <div class="product-grid">
+                <!-- Product 7 -->
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Formal Shirt" class="product-img">
+                    <div class="product-details">
+                        <div class="product-brand">Van Heusen</div>
+                        <div class="product-name">Men Formal Slim Fit Shirt</div>
+                        <div class="product-price">
+                            <span class="original-price">₹2,499</span> ₹1,749
+                            <span class="discount">(30% OFF)</span>
+                        </div>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i> 4.4
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 8 -->
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1582418702059-97ebafb35d09?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Sunglasses" class="product-img">
+                    <div class="product-details">
+                        <div class="product-brand">Ray-Ban</div>
+                        <div class="product-name">Aviator Sunglasses</div>
+                        <div class="product-price">
+                            <span class="original-price">₹8,999</span> ₹6,299
+                            <span class="discount">(30% OFF)</span>
+                        </div>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i> 4.8
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-columns">
+                <div class="footer-column">
+                    <h3>Online Shopping</h3>
+                    <ul>
+                        <li><a href="#">Men</a></li>
+                        <li><a href="#">Women</a></li>
+                        <li><a href="#">Kids</a></li>
+                        <li><a href="#">Home & Living</a></li>
+                        <li><a href="#">Beauty</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Useful Links</h3>
+                    <ul>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">T&C</a></li>
+                        <li><a href="#">Terms Of Use</a></li>
+                        <li><a href="#">Track Orders</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Experience Myntra App</h3>
+                    <ul>
+                        <li><a href="#"><i class="fab fa-google-play"></i> Google Play</a></li>
+                        <li><a href="#"><i class="fab fa-apple"></i> App Store</a></li>
+                    </ul>
+                    
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>100% Original Guarantee</h3>
+                    <p style="color: #b6b8c3; font-size: 14px; line-height: 1.6;">All products sold on Myntra are 100% original and sourced directly from brands or authorized dealers.</p>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 Myntra Clone. All rights reserved. This is a demonstration website for educational purposes.</p>
+                <p style="margin-top: 8px;">Made with <i class="fas fa-heart" style="color: var(--primary-color);"></i> for learning HTML & CSS</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple JavaScript for interactive elements
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add click event to shop now button
+            const shopNowBtn = document.querySelector('.shop-now-btn');
+            shopNowBtn.addEventListener('click', function() {
+                alert('Redirecting to the shopping page...');
+            });
+            
+            // Add hover effect to product cards
+            const productCards = document.querySelectorAll('.product-card');
+            productCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-10px)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+            
+            // Search functionality placeholder
+            const searchInput = document.querySelector('.search-container input');
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    alert(`Searching for: ${this.value}`);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
